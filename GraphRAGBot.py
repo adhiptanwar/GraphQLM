@@ -1,9 +1,6 @@
 from GraphRAG import GraphRAG
 import streamlit as st
 import pyperclip
-from dotenv import load_dotenv
-import os
-
 
 
 db_user = st.secrets["DB_USER"]
