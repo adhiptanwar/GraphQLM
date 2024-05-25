@@ -2,9 +2,6 @@ from GraphRAG import GraphRAG
 import streamlit as st
 import clipboard
 
-# Embed the JavaScript in the Streamlit app
-st.components.v1.html(copy_to_clipboard_js)
-
 db_user = st.secrets["postgres"]["DB_USER"]
 db_password = st.secrets["postgres"]['DB_PASSWORD']
 db_host = st.secrets["postgres"]['DB_HOST']
