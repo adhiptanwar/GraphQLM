@@ -75,8 +75,12 @@ with st.sidebar:
 
             # Button to copy selected question to clipboard
             if st.button("Copy to Clipboard"):
-                pyperclip.copy(selected_question)
-                st.success("Question copied to clipboard!")
+                try:
+                    pyperclip.copy(selected_question)
+                    st.success("Question copied to clipboard!")
+                except pyperclip.PyperclipException as e:
+                    st.error("Failed to copy text to clipboard.")
+                    st.error(str(e))
 
 
 # Initialize chat history
