@@ -2,12 +2,12 @@ from GraphRAG import GraphRAG
 import streamlit as st
 import clipboard
 
-db_user = st.secrets["postgres"]["DB_USER"]
-db_password = st.secrets["postgres"]['DB_PASSWORD']
-db_host = st.secrets["postgres"]['DB_HOST']
-db_port = st.secrets["postgres"]['DB_PORT']
-db_name = st.secrets["postgres"]['DB_NAME']
-api_key = st.secrets["openai"]['API_KEY']
+db_user = st.secrets["DB_USER"]
+db_password = st.secrets['DB_PASSWORD']
+db_host = st.secrets['DB_HOST']
+db_port = st.secrets['DB_PORT']
+db_name = st.secrets['DB_NAME']
+api_key = st.secrets['API_KEY']
 
 db_l = [db_name, db_user, db_password, db_host, db_port]
 
