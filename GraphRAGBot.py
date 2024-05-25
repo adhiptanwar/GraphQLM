@@ -2,7 +2,7 @@ from GraphRAG import GraphRAG
 import streamlit as st
 import clipboard
 
-db_user = st.secrets[postgres]["DB_USER"]
+db_user = st.secrets["postgres"]["DB_USER"]
 db_password = st.secrets["postgres"]['DB_PASSWORD']
 db_host = st.secrets["postgres"]['DB_HOST']
 db_port = st.secrets["postgres"]['DB_PORT']
