@@ -1,7 +1,21 @@
 from GraphRAG import GraphRAG
 import streamlit as st
-import clipboard
 
+copy_to_clipboard_js = """
+<script>
+function copyToClipboard(text) {
+    const el = document.createElement('textarea');
+    el.value = text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+}
+</script>
+"""
+
+# Embed the JavaScript in the Streamlit app
+st.components.v1.html(copy_to_clipboard_js)
 
 db_user = st.secrets["DB_USER"]
 db_password = st.secrets['DB_PASSWORD']
@@ -75,12 +89,9 @@ with st.sidebar:
 
             # Button to copy selected question to clipboard
             if st.button("Copy to Clipboard"):
-                try:
-                    clipboard.copy(selected_question)
-                    st.success("Question copied to clipboard!")
-                except Exception as e:
-                    st.error("Failed to copy text to clipboard.")
-                    st.error(str(e))
+                st.components.v1.html(f"""<script>copyToClipboard("{text_to_copy}");</script>""", height=0)
+                st.success("Question copied to clipboard!")
+            
 
 
 # Initialize chat history
