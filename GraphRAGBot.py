@@ -1,6 +1,6 @@
 from GraphRAG import GraphRAG
 import streamlit as st
-import pyperclip
+import clipboard
 
 
 db_user = st.secrets["DB_USER"]
@@ -76,9 +76,9 @@ with st.sidebar:
             # Button to copy selected question to clipboard
             if st.button("Copy to Clipboard"):
                 try:
-                    pyperclip.copy(selected_question)
+                    clipboard.copy(selected_question)
                     st.success("Question copied to clipboard!")
-                except pyperclip.PyperclipException as e:
+                except Exception as e:
                     st.error("Failed to copy text to clipboard.")
                     st.error(str(e))
 
