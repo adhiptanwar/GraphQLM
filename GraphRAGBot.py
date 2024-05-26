@@ -2,16 +2,9 @@ from GraphRAG import GraphRAG
 import streamlit as st
 import clipboard
 
-db_user = st.secrets["DB_USER"]
-db_password = st.secrets['DB_PASSWORD']
-db_host = st.secrets['DB_HOST']
-db_port = st.secrets['DB_PORT']
-db_name = st.secrets['DB_NAME']
-api_key = st.secrets['API_KEY']
+api_key = st.secrets["API_KEY"]
 
-db_l = [db_name, db_user, db_password, db_host, db_port]
-
-RAG = GraphRAG(db_l, api_key)
+RAG = GraphRAG('my_database.db', 'kb.txt', api_key)
 
 
 def get_answer(question):
