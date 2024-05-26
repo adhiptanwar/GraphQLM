@@ -6,20 +6,14 @@ import os
 from openai import OpenAI
 
 class GraphRAG:
-    def __init__(self, db_l, api_key):
+    def __init__(self, db_path, kg_file_name, api_key):
         """
         Initialize the ChatGPTRetrieval class with the OpenAI API key and model.
 
         Parameters:
             api_key (str): OpenAI API key for authentication.
         """
-        self.db = Database(
-            database=db_l[0],
-            user=db_l[1],
-            password=db_l[2],
-            host=db_l[3],
-            port=db_l[4]
-        )
+        self.db = Database(db_path, kg_file_name)
 
         self.chat_gpt = GPTRetrieval(api_key)
 
@@ -114,7 +108,7 @@ class GraphRAG:
                 ending_nodes = []
 
                 for t in temp:
-                    ending_nodes.append(t["object"])
+                    ending_nodes.append(t[2])
                     if t not in triples:
                         triples.append(t)
 
@@ -129,7 +123,7 @@ class GraphRAG:
                 ending_nodes = []
 
                 for t in temp:
-                    ending_nodes.append(t["subject"])
+                    ending_nodes.append(t[0])
                     if t not in triples:
                         triples.append(t)
             i += 1
@@ -152,7 +146,7 @@ class GraphRAG:
                 ending_nodes = []
 
                 for t in temp:
-                    ending_nodes.append(t["subject"])
+                    ending_nodes.append(t[0])
                     if t not in triples:
                         triples.append(t)
 
@@ -167,7 +161,7 @@ class GraphRAG:
                 ending_nodes = []
 
                 for t in temp:
-                    ending_nodes.append(t["object"])
+                    ending_nodes.append(t[2])
                     if t not in triples:
                         triples.append(t)
             i += 1
@@ -184,7 +178,6 @@ class GraphRAG:
 
             if len(triples) == 0:
                 # start at subject
-                # triples = db.get_1hop_triple_object(question_entity, relevant_relations[0])
                 answers = self.traverse_from_subject(
                     question_entity, relevant_relations)
             else:
@@ -196,7 +189,7 @@ class GraphRAG:
             return answers
 
         except Exception as e:
-            print(e)
+            int(e)
             self.db.disconnect()
             return None
 
@@ -215,17 +208,6 @@ class GraphRAG:
                     print("The answer is ")
                     for i in answers:
                         print(i, end=", ")
-                    # triples = extract_1hop_triple(question_entity, relevant_relations)
-                    # print("Triples from db : " + str(triples))
-                    # if triples:
-                    #     linearized_triples = linearize_triples(triples)
-                    #     print("Linearized triples : " + linearized_triples)
-
-                    #     if linearized_triples:
-                    #         print(linearized_triples)
-                    #         answer = get_gpt_answer(question, linearized_triples)
-                    #         answer_list = convert_gpt_answer_to_list(answer)
-                    #         print("Final Answer : " + str(answer_list))
                 else:
                     print("Error extracting answers")
             else:
@@ -254,7 +236,7 @@ class GraphRAG:
 
 
 # def start_dialogue():
-#     RAG = GraphRAG(db_l, api_key)
+#     RAG = GraphRAG('my_database.db', 'kb.txt', api_key)
 #     print("Hello! Ask me anything from MetaQA. Type 'exit' to end the conversation.")
 
 #     while True:
