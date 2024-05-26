@@ -1,54 +1,50 @@
-import psycopg2
-import psycopg2.extras
-
+import sqlite3
+import pandas as pd
 
 class Database:
-    def __init__(self, database, user, password, host, port):
-        self.database = database
-        self.user = user
-        self.password = password
-        self.host = host
-        self.port = port
+    def __init__(self, db_path, txt_file):
+        self.db_path = db_path
+        self.txt_file = txt_file
         self.connection = None
 
     def connect(self):
         try:
-            self.connection = psycopg2.connect(
-                database=self.database,
-                user=self.user,
-                password=self.password,
-                host=self.host,
-                port=self.port
-            )
-            # print("~~~~~~~ Connected to database successfully ~~~~~~~ ")
-        except psycopg2.Error as e:
+            self.connection = sqlite3.connect(self.db_path)
+            print("Connected to database successfully")
+            self.create_table_from_txt()
+        except sqlite3.Error as e:
             print("Unable to connect to the database:", e)
 
     def disconnect(self):
         if self.connection:
             self.connection.close()
-            # print("~~~~~~~ Connection closed ~~~~~~~\n")
+            print("Connection closed")
 
-    def execute_query(self, query, var1, var2):
+    def create_table_from_txt(self):
+        # Load the text file into a pandas DataFrame
+        df = pd.read_csv(self.txt_file, delimiter='|', header=None, names=['subject', 'predicate', 'object'])
+        # Write the DataFrame to the SQLite database
+        df.to_sql('kg_triples', self.connection, if_exists='replace', index=False)
+       
+
+    def execute_query(self, query, params):
         if not self.connection:
             print("Not connected to the database.")
             return None
         try:
-            cursor = self.connection.cursor(
-                cursor_factory=psycopg2.extras.DictCursor)
-            cursor.execute(query, (var1, var2))
+            cursor = self.connection.cursor()
+            cursor.execute(query, params)
             records = cursor.fetchall()
             cursor.close()
             return records
-        except psycopg2.Error as e:
+        except sqlite3.Error as e:
             print("Error executing query:", e)
             return None
 
-    # Add more methods for different database operations
     def get_1hop_triple_object(self, object, relation):
-        query = "select * from kg_triples where object = %s and predicate = %s;"
-        return self.execute_query(query, object, relation)
+        query = "SELECT * FROM kg_triples WHERE object = ? AND predicate = ?;"
+        return self.execute_query(query, (object, relation))
 
     def get_1hop_triple_subject(self, subject, relation):
-        query = "select * from kg_triples where subject = %s and predicate = %s;"
-        return self.execute_query(query, subject, relation)
+        query = "SELECT * FROM kg_triples WHERE subject = ? AND predicate = ?;"
+        return self.execute_query(query, (subject, relation))
