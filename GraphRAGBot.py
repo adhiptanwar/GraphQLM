@@ -6,19 +6,8 @@ api_key = st.secrets["API_KEY"]
 
 RAG = GraphRAG('my_database.db', 'kb.txt', api_key)
 
-st.info("This app is in testing.")
+st.warning("This app is currently under testing. It does not process incorrectly formatted entity names. Please input correctly capitalized and spelled-out entities. We also request you to put question entities in sqaure brackets.")
 
-# Function to show an alert message when the app starts
-def show_alert():
-    if "alert_shown" not in st.session_state:
-        st.session_state.alert_shown = False
-
-    if not st.session_state.alert_shown:
-        st.info("This app is in testing.")
-        st.session_state.alert_shown = True
-
-# Show the alert message
-show_alert()
     
 def get_answer(question):
     gpt_response = RAG.get_gpt_response(question)
