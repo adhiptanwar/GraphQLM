@@ -8,6 +8,20 @@ RAG = GraphRAG('my_database.db', 'kb.txt', api_key)
 
 st.info("This app is in testing.")
 
+# Function to create a pop-up message
+def show_popup():
+    with st.modal("Notice"):
+        st.markdown("**This app is in testing.**")
+        if st.button("Close"):
+            st.session_state.popup_shown = True
+
+# Check if the pop-up has already been shown in this session
+if "popup_shown" not in st.session_state:
+    st.session_state.popup_shown = False
+
+if not st.session_state.popup_shown:
+    show_popup()
+    
 def get_answer(question):
     gpt_response = RAG.get_gpt_response(question)
     # print("GPT Response : " + gpt_response)
