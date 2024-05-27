@@ -3,5 +3,4 @@ pandas
 psycopg2-binary
 OpenAI
 clipboard
-sqlite
 
