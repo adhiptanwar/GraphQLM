@@ -6,6 +6,7 @@ api_key = st.secrets["API_KEY"]
 
 RAG = GraphRAG('my_database.db', 'kb.txt', api_key)
 
+st.info("This app is in testing.")
 
 def get_answer(question):
     gpt_response = RAG.get_gpt_response(question)
@@ -59,25 +60,10 @@ with st.sidebar:
             "Select Question Type", ["1-hop", "2-hop", "3-hop"])
         # Display selected list of questions in main area
         if selected_sample_type:
-            st.write("Sample Questions:")
+            st.write("Here are a few sample questions that you can copy:")
             for question in sample_questions[selected_sample_type]:
                 st.text_area("", question, height=40)
-        # if selected_sample_type:
-        #     st.sidebar.write("Select a question to copy to input field.")
-        #     selected_question = st.sidebar.selectbox(
-        #         "", sample_questions[selected_sample_type])
-        #     # Display selected question
-        #     st.write("Selected Question:", selected_question)
-
-        #     # Button to copy selected question to clipboard
-        #     if st.button("Copy to Clipboard"):
-        #         try:
-        #             pyperclip.copy(selected_question)
-        #             st.success("Text copied to clipboard!")
-        #         except Exception as e:
-        #             st.error("Failed to copy text to clipboard.")
-        #             st.error(str(e))
-            
+    
 
 # Initialize chat history
 if "messages" not in st.session_state:
