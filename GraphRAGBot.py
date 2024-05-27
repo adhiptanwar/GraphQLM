@@ -68,7 +68,7 @@ with st.sidebar:
             # Button to copy selected question to clipboard
             if st.button("Copy to Clipboard"):
                 try:
-                    clipboard.copy(text_to_copy)
+                    clipboard.copy(selected_question)
                     st.success("Text copied to clipboard!")
                 except Exception as e:
                     st.error("Failed to copy text to clipboard.")
