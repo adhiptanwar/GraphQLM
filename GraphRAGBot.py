@@ -73,6 +73,7 @@ with st.sidebar:
                 except Exception as e:
                     st.error("Failed to copy text to clipboard.")
                     st.error(str(e))
+            
 
 # Initialize chat history
 if "messages" not in st.session_state:
