@@ -8,19 +8,17 @@ RAG = GraphRAG('my_database.db', 'kb.txt', api_key)
 
 st.info("This app is in testing.")
 
-# Function to create a pop-up message
-def show_popup():
-    with st.modal("Notice"):
-        st.markdown("**This app is in testing.**")
-        if st.button("Close"):
-            st.session_state.popup_shown = True
+# Function to show an alert message when the app starts
+def show_alert():
+    if "alert_shown" not in st.session_state:
+        st.session_state.alert_shown = False
 
-# Check if the pop-up has already been shown in this session
-if "popup_shown" not in st.session_state:
-    st.session_state.popup_shown = False
+    if not st.session_state.alert_shown:
+        st.info("This app is in testing.")
+        st.session_state.alert_shown = True
 
-if not st.session_state.popup_shown:
-    show_popup()
+# Show the alert message
+show_alert()
     
 def get_answer(question):
     gpt_response = RAG.get_gpt_response(question)
