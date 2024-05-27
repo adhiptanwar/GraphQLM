@@ -1,6 +1,6 @@
 from GraphRAG import GraphRAG
 import streamlit as st
-import clipboard
+import pyperclip
 
 api_key = st.secrets["API_KEY"]
 
@@ -68,7 +68,7 @@ with st.sidebar:
             # Button to copy selected question to clipboard
             if st.button("Copy to Clipboard"):
                 try:
-                    clipboard.copy(selected_question)
+                    pyperclip.copy(selected_question)
                     st.success("Text copied to clipboard!")
                 except Exception as e:
                     st.error("Failed to copy text to clipboard.")
