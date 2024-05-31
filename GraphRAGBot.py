@@ -5,7 +5,7 @@ api_key = st.secrets["API_KEY"]
 
 RAG = GraphRAG('my_database.db', 'kb.txt', api_key)
 
-st.warning("This app is currently under testing. It does not process incorrectly formatted entity names. Please input correctly capitalized and spelled-out entities. We also request you to put question entities in sqaure brackets.")
+st.warning("This app is currently under testing. It does not process incorrectly formatted entity names. Please input correctly capitalized and spelled-out entities. We also request you to put question entities in square brackets.")
 
     
 def get_answer(question):
