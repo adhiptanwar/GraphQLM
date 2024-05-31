@@ -1,6 +1,5 @@
 from GraphRAG import GraphRAG
 import streamlit as st
-import pyperclip
 
 api_key = st.secrets["API_KEY"]
 
