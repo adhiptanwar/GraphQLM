@@ -42,9 +42,9 @@ class Database:
             return None
 
     def get_1hop_triple_object(self, object, relation):
-        query = "SELECT * FROM kg_triples WHERE object = ? AND predicate = ?;"
+        query = "SELECT * FROM kg_triples WHERE LOWER(object) = LOWER(?) AND predicate = ?;"
         return self.execute_query(query, (object, relation))
 
     def get_1hop_triple_subject(self, subject, relation):
-        query = "SELECT * FROM kg_triples WHERE subject = ? AND predicate = ?;"
+        query = "SELECT * FROM kg_triples WHERE LOWER(subject) = LOWER(?) AND predicate = ?;"
         return self.execute_query(query, (subject, relation))
